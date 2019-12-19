@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -51,20 +50,30 @@ func runWithEnv(env []string, command string, args ...string) ([]byte, error) {
 	return out.Bytes(), err
 }
 
+func log(msg ...interface{}) {
+	fmt.Println(msg...)
+}
+
+func fatal(msg ...interface{}) {
+	log(msg...)
+	os.Exit(1)
+}
+
 func main() {
 	name := os.Getenv("AWS_PROFILE")
 	if name == "" {
-		log.Fatal("Required env var not set: AWS_PROFILE")
+		fatal("Required env var not set: AWS_PROFILE")
 	}
 	out, err := run("lpass", "show", "--sync=auto", "--json", name)
 	if err != nil {
-		log.Fatal(err)
+		fatal(err)
 	}
 	dec := json.NewDecoder(bytes.NewBuffer(out))
 	var entries []Entry
 	err = dec.Decode(&entries)
 	if err != nil {
-		log.Fatal("Unexpected output from lpass, perhaps multiple entries with same name?")
+		log("Unexpected output from lpass, perhaps multiple entries with same name? Please be more specific")
+		fatal(string(out))
 	}
 	accessKey := entries[0].Username
 	secretKey := entries[0].Password
@@ -75,7 +84,7 @@ func main() {
 	}
 	out, err = runWithEnv(env, "aws-iam-authenticator", os.Args[1:]...)
 	if err != nil {
-		log.Fatal(err)
+		fatal(err)
 	}
 	fmt.Print(string(out))
 }

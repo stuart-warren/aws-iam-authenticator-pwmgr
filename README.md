@@ -4,7 +4,7 @@ fetch credentials for aws-iam-authenticator from password management
 
 current implimentations:
 
-- lpass (LastPass)
+- lpass ([LastPass](#lastpass))
 
 ## Lastpass
 
@@ -12,7 +12,7 @@ Create an entry in lastpass with username the AWS_ACCESS_KEY_ID and password the
 
 Then configure your kubeconfig as normal but use `aws-iam-authenticator-lpass` as the command
 
-```
+```yaml
 ...
 kind: Config
 preferences: {}
@@ -32,5 +32,7 @@ users:
         - "-r"
         - "REPLACE_ME_WITH_YOUR_ROLE_ARN"
 ```
+
+You must still have `aws-iam-authenticator` installed.
 
 See https://github.com/kubernetes-sigs/aws-iam-authenticator for more details

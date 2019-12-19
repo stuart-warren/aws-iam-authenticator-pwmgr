@@ -10,6 +10,7 @@ builds:
 - env:
   - CGO_ENABLED=0
   main: ./cmd/aws-iam-authenticator-lpass/main.go
+  binary: aws-iam-authenticator-lpass
   goos:
   - windows
   - darwin

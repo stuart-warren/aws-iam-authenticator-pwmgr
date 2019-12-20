@@ -8,6 +8,11 @@ current implimentations:
 
 ## Lastpass
 
+Prerequisites:
+
+- [lpass](https://github.com/lastpass/lastpass-cli/blob/master/README.md)
+- [aws-iam-authenticator](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html)
+
 Create an entry in lastpass with username the AWS_ACCESS_KEY_ID and password the AWS_SECRET_ACCESS_KEY
 
 Then configure your kubeconfig as normal but use `aws-iam-authenticator-lpass` as the command
@@ -32,7 +37,5 @@ users:
         - "-r"
         - "REPLACE_ME_WITH_YOUR_ROLE_ARN"
 ```
-
-You must still have `aws-iam-authenticator` installed.
 
 See https://github.com/kubernetes-sigs/aws-iam-authenticator for more details

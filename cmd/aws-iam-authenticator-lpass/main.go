@@ -17,10 +17,10 @@ type Entry struct {
 }
 
 func mergeEnv(original, extra []string) []string {
-	m := map[string]string{}
 	if len(extra) == 0 {
 		return original
 	}
+	m := map[string]string{}
 	for _, e := range append(original, extra...) {
 		p := strings.SplitN(e, "=", 2)
 		m[p[0]] = p[1]
@@ -54,8 +54,12 @@ func log(msg ...interface{}) {
 	fmt.Println(msg...)
 }
 
+func errr(msg ...interface{}) {
+	fmt.Fprintln(os.Stdout, msg...)
+}
+
 func fatal(msg ...interface{}) {
-	log(msg...)
+	errr(msg...)
 	os.Exit(1)
 }
 
@@ -72,7 +76,7 @@ func main() {
 	var entries []Entry
 	err = dec.Decode(&entries)
 	if err != nil {
-		log("Unexpected output from lpass, perhaps multiple entries with same name? Please be more specific")
+		errr("Unexpected output from lpass, perhaps multiple entries with same name? Please be more specific")
 		fatal(string(out))
 	}
 	accessKey := entries[0].Username

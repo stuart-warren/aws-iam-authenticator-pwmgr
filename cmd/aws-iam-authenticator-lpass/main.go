@@ -55,7 +55,7 @@ func log(msg ...interface{}) {
 }
 
 func errr(msg ...interface{}) {
-	fmt.Fprintln(os.Stdout, msg...)
+	fmt.Fprintln(os.Stderr, msg...)
 }
 
 func fatal(msg ...interface{}) {
@@ -76,7 +76,6 @@ func main() {
 	var entries []Entry
 	err = dec.Decode(&entries)
 	if err != nil {
-		errr("Unexpected output from lpass, perhaps multiple entries with same name? Please be more specific")
 		fatal(string(out))
 	}
 	accessKey := entries[0].Username
